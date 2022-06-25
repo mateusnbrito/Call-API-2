@@ -1,0 +1,88 @@
+@OneToOne:
+Linha de uma tabela só tem relação com uma linha de outra tabela.
+"Um employee tem somente uma account e uma account tem somente um employee"
+
+@Entity
+@Table(name = "employee")
+public class Employee {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+  private String name;
+  private String email;
+}
+
+@Entity
+@Table(name = "account")
+public class Account {
+  @Id
+  private int id;
+  private String password;
+
+  @OneToOne
+  @JoinColumn(name = "id", referencedColumnName = "id")
+  private Employee employee;
+}
+
+-----------------------------------------------------------------------------
+
+@OneToMany
+Linha de uma tabela se relaciona com múltiplas linhas de outra tabela
+
+@ManyToOne
+Múltiplas linhas de uma tabela se relaciona com uma linha de outra tabela
+
+"Uma position pode ter muitos employees, mas um employee só pode ter uma position"
+"Um cliente pode ter muitos chamados, mas um chamado só pode ter um cliente"
+
+mappedBy: Variável que representa a classe pai na classe filho.
+
+@Entity
+@Table(name = "position")
+public class Position {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int p_id;
+  private String p_name;
+
+  // @OneToMany(mappedBy = "position", cascade = CascadeType.ALL)
+
+  @OneToMany(mappedBy = "position")
+  private List<Employee> employee;
+}
+
+@Entity
+@Table(name = "employee")
+public class Employee {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+  private String name;
+  private String email;
+
+  // @ManyToOne(optional = false)
+  // @JoinColumn(name = "position_id", nullable = false, referencedColumnName = "p_id")
+
+  @ManyToOne
+  @JoinColumn(name = "position_id", nullable = false)
+  private Position position;
+}
+
+-----------------------------------------------------------------------------
+
+@ManyToMany
+Múltiplas linhas de uma tabela se relacionam com múltiplas linhas de outra tabela
+"Uma account pode ter mais de uma role e um role pode ter mais de uma account"
+
+@Entity
+@Table(name = "account")
+public class Account {
+    @Id
+    private int id;
+
+    private String password;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "account_role", joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
+    private List<Role> role;
+}

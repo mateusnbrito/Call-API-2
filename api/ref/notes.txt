@@ -1,0 +1,42 @@
+Rotas:
+
+Rota de login de usuário: /
+Rota de criação de nova conta de usuário: /register
+Rota de dashboard: /dashboard
+Rota de perfil de usuário: /profile
+Rota de clientes: /costumers
+Rota de novo chamado: /new
+
+Entidades:
+
+Usuario
+  - Nome
+  - Email
+  - Senha
+  - Foto
+
+  *Possui clientes
+  *Possui chamados
+
+Cliente
+  - Nome
+  - CNPJ
+  - Endereço
+  - Timestamp
+
+Chamado
+  - Cliente
+  - Assunto (Suporte, financeiro e visita)
+  - Status (Em aberto, em progresso e atendido)
+  - Descrição
+
+  *Possui cliente
+
+{
+  "clientModels": [],
+  "userModel": "",
+  "name": "Mateus Brito",
+  "email": "mateusbrito@email.com",
+  "password": "123456",
+  "picture": "https://picsum/300/200"
+}
